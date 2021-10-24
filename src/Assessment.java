@@ -6,21 +6,24 @@ public class Assessment {
 		Customer medha = new Customer("Medha", 1, new Date(), true, false);
 		Shopping purchase = new Shopping(900, "electronic");
 		
-		float discountPercentage = getDiscountPercentage(medha, purchase);
+		int discountPercentage = getDiscountPercentage(medha, purchase);
+		float paymentAfterDiscount = ((100 - discountPercentage) * purchase.billAmount) / 100;
 		
-
-		float pyamentAfterDiscount = ((100 - discountPercentage) * purchase.billAmount) / 100;
-
+		float extraDiscount = getExtraDiscount(paymentAfterDiscount);
+		float paymentAfterExtraDiscount = paymentAfterDiscount - extraDiscount;
+		
+		
 		System.out.println("Total Bill (before discount): " + purchase.billAmount);
-		System.out.println(medha.name + " got discount: " + discountPercentage + "%");
-		System.out.println("Total Bill (after discount): " + pyamentAfterDiscount);
+		System.out.println(medha.name + " got %age discount: " + discountPercentage + "%");
+		System.out.println("Total Bill (after %age discount): " + paymentAfterDiscount);
+
+		System.out.println(medha.name + " got extra discount: " + extraDiscount);
+		System.out.println("Total Bill (after extra discount): " + paymentAfterExtraDiscount);
 	}
 	
 
 	static int getDiscountPercentage(Customer customer, Shopping purchase) {
 		int discountPercentage = 0;
-		
-		System.out.println(purchase.type);
 
 		// No discount if grocery
 		if (purchase.type == "grocery") {
@@ -50,5 +53,9 @@ public class Assessment {
 		return 0;
 	}
 	
+	static float getExtraDiscount(float amount) {
+		float discountAmount = (float) (Math.floor(amount/100) * 5);
+		return discountAmount;
+	}
 
 }
